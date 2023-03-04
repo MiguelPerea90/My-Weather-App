@@ -1,0 +1,10 @@
+.container {
+    background-color: #ADD8E6;
+    width: 60%;
+    height: auto;
+    margin: 0 auto;
+    box-shadow: 12px 12px 12px 0px rgba(0,0,0,0.75);
+    font-size: 18px;
+    padding: 20px;
+    margin-top: 80px;
+}

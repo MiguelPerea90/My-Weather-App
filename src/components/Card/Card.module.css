@@ -1,20 +1,27 @@
 .card {
-    margin: 20px;
-    width: 18rem;
-  }
-  
-  .cardTitle {
-    margin-bottom: 15px;
-  }
-  
-  #closeIcon {
+    background-color: #ADD8E6;
+    width: 300px;
+    height: 320px;
     display: flex;
-    justify-content: flex-end;
-    margin-right: 8px;
-    margin-top: 8px;
+    flex-direction: column;
+    gap: .5rem;
+    box-shadow: 12px 12px 12px 0px rgba(0,0,0,0.75);
   }
-  
-  .cardBody {
-    margin-top: 0px !important;
-    padding-top: 0px !important;
+  .close {
+    background-color: #ffffff;
+    margin-top: 10px;
+    box-shadow: 6px 6px 6px 0px rgba(0,0,0,0.75);
+  }
+  .cardTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+  }
+  .linkTitle {
+    text-decoration: none;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  span {
+    font-size: 18px;
   }

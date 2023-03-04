@@ -1,122 +1,73 @@
-import React, { useState } from 'react'; 
-import Nav from './components/Nav/Nav';
-import Cards from './components/Cards/Cards.jsx'
-import styles from "./App.module.css"
+import React, { useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import styles from  "./App.module.css";
+import Nav from "./components/Nav/Nav";
+import Cards from "./components/Cards/Cards";
+import About from "./components/About/About";
+import Ciudad from "./components/Ciudad/Ciudad";
 
-export default function App() {
 
-  const [cities,setCities] = useState([]);  
+const KEY = "4ae2636d8dfbdc3044bede63951a019b";
 
-  const apiKey = '4ae2636d8dfbdc3044bede63951a019b';
 
-  function onSearch(city){
-      fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
-        .then(response => response.json())
-        .then(response_json => {
-          if(response_json.main !== undefined){
-            const city = {
-              min: Math.round(response_json.main.temp_min),
-              max: Math.round(response_json.main.temp_max),
-              img: response_json.weather[0].icon,
-              id: response_json.id,
-              wind: response_json.wind.speed,
-              temp: response_json.main.temp,
-              name: response_json.name,
-              weather: response_json.weather[0].main,
-              clouds: response_json.clouds.all,
-              latitude: response_json.coord.lat,
-              longitude: response_json.coord.lon
-            };
-            setCities(oldCities => [...oldCities, city]);
-          }else{
-            alert("Ciudad no encontrada");
-          }
-      })
-      .catch(e => console.log(e));
-  }
+function App() {
+
+
+  const [cities, setCities] = useState([]);
 
   function onClose(id) {
-      setCities(oldCities => oldCities.filter(c => c.id !== id));
+    setCities((oldCities) => oldCities.filter((c) => c.id !== id));
+  }
+
+  function onSearch(ciudad) {
+    fetch(
+      `http://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${KEY}&units=metric`
+    )
+      .then((r) => r.json())
+      .then((recurso) => {
+        if (recurso.main !== undefined) {
+          const ciudad = {
+            min: Math.round(recurso.main.temp_min),
+            max: Math.round(recurso.main.temp_max),
+            img: recurso.weather[0].icon,
+            id: recurso.id,
+            wind: recurso.wind.speed,
+            temp: recurso.main.temp,
+            name: recurso.name,
+            weather: recurso.weather[0].main,
+            clouds: recurso.clouds.all,
+            latitud: recurso.coord.lat,
+            longitud: recurso.coord.lon,
+          };
+          setCities((oldCities) => [...oldCities, ciudad]);
+        } else {
+          alert("Ciudad no encontrada");
+        }
+      });
+  }
+
+  function onFilter(idCiudad) {
+    let ciudad = cities.filter((city) => city.id === parseInt(idCiudad)); // [{...}]
+    if (ciudad.length > 0) return ciudad[0];
+    else return null;
   }
 
   return (
-    <div className={styles.App}>
-      <h1>View App</h1>
-      <Nav onSearch={onSearch}/>
-      <Cards cities={cities} onClose={onClose}/>
+    <div className={styles.containeApp}>
+
+      <Nav onSearch={onSearch} />  
+      <Routes>
+        <Route path="/" element={<Cards cities={cities} onClose={onClose} />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/ciudad/:idCiudad" element={<Ciudad onFilter={onFilter} />} />
+      </Routes>
+      {/* <hr /> */}
+
     </div>
   );
 }
 
+export default App;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useState } from 'react'; 
-// import Nav from './components/Nav/Nav';
-// import Cards from './components/Cards/Cards.jsx'
-// import styles from "./App.module.css"
-
-// export default function App() {
-
-//   const [cities,setCities] = useState([]);  
-
-//     const apiKey = '4ae2636d8dfbdc3044bede63951a019b';
-
-//     function onSearch(city){
-//       fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
-//         .then(response => response.json())
-//         .then(response_json => {
-//           if(response_json.main !== undefined){
-//             const city = {
-//               min: Math.round(response_json.main.temp_min),
-//               max: Math.round(response_json.main.temp_max),
-//               img: response_json.weather[0].icon,
-//               id: response_json.id,
-//               wind: response_json.wind.speed,
-//               temp: response_json.main.temp,
-//               name: response_json.name,
-//               weather: response_json.weather[0].main,
-//               clouds: response_json.clouds.all,
-//               latitude: response_json.coord.lat,
-//               longitude: response_json.coord.lon
-//             };
-//             setCities(oldCities => [...oldCities, city]);
-//           }else{
-//             alert("Ciudad no encontrada");
-//           }
-//       })
-//       .catch(e => console.log(e));
-//     }
-
-//     function onClose(id) {
-//       setCities(oldCities => oldCities.filter(c => c.id !== id));
-//     }
-
-
-//   return (
-//     <div className={styles.App}>
-//       <h1>View App</h1>
-//       <Nav onSearch={onSearch}/>
-//       <Cards cities={cities} onClose={onClose}/>
-//     </div>
-//   );
-// }

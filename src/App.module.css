@@ -1,4 +1,7 @@
-.App {
+body {
+  font-family: 'Ubuntu', sans-serif;
+}
+.containeApp {
     text-align: center;
   }
   
